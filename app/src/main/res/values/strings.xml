@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Raiffeisen Test</string>
+    <string name="empty_list">No item found.</string>
 </resources>

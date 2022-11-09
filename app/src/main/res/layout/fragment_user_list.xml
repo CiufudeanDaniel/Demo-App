@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="java.util.ArrayList" />
+        <import type="android.view.View" />
+        <import type="com.example.raiffeisentest.view_models.UserViewModel" />
+        <variable name="viewModel" type="UserViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/empty_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/empty_list"
+            android:gravity="center"
+            android:visibility="@{viewModel.users.size() == 0 ? View.VISIBLE : View.GONE}"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

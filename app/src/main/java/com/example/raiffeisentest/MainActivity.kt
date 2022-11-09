@@ -2,21 +2,15 @@ package com.example.raiffeisentest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.example.raiffeisentest.view_models.UserViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.raiffeisentest.databinding.ActivityMainBinding
 
-private const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity() {
-
-    private val viewModel: UserViewModel by viewModel()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        viewModel.users.observe(this) { u ->
-            Log.v(TAG, "users: $u")
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
