@@ -5,9 +5,9 @@ import com.example.raiffeisentest.models.User
 
 class UserRepository(private val retrofitService: RetrofitAPI) {
 
-    suspend fun getUsers() : ArrayList<User> {
+    suspend fun getUsers(page: Int) : ArrayList<User> {
         return try {
-            retrofitService.getUsers(0, 20, "abc").results
+            retrofitService.getUsers(page, 20, "abc").results
         } catch (e: Exception) {
             arrayListOf()
         }
