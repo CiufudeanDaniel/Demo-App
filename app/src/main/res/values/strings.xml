@@ -4,4 +4,6 @@
     <string name="image_description">Description</string>
     <string name="name">%1$s %2$s</string>
     <string name="age_and_nat">%1$s years from %2$s</string>
+    <string name="search">Search</string>
+    <string name="users">Users</string>
 </resources>
