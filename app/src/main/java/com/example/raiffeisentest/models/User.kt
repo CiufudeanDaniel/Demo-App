@@ -13,6 +13,7 @@ data class User(
 ) : Parcelable
 
 @Parcelize
-data class ResultModel(
-    val results: ArrayList<User>
+data class UsersModel(
+    val results: ArrayList<User>,
+    val info: InfoModel
 ) : Parcelable

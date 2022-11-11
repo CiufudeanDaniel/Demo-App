@@ -1,6 +1,6 @@
 package com.example.raiffeisentest.interfaces
 
-import com.example.raiffeisentest.models.ResultModel
+import com.example.raiffeisentest.models.UsersModel
 import retrofit2.http.*
 
 interface RetrofitAPI {
@@ -10,5 +10,5 @@ interface RetrofitAPI {
         @Query("page") page: Int,
         @Query("results") results: Int,
         @Query("seed") seed: String
-        ): ResultModel
+        ): UsersModel
 }
