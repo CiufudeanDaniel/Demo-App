@@ -67,6 +67,11 @@ class UserListFragment : Fragment() {
                 mUsers = u
 
             binding.userModel = mUsers
+            if (mUsers.results.size == 0)
+                viewModel.getFromDB()
+            else
+                viewModel.addUsers(u.results)
+
             val firstItemPosition = (binding.usersList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
             binding.usersList.adapter = RecyclerViewAdapter(mUsers.results)
             binding.usersList.scrollToPosition(firstItemPosition)

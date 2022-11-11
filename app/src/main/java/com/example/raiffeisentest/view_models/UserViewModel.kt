@@ -7,14 +7,18 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.raiffeisentest.models.User
 import com.example.raiffeisentest.models.UsersModel
 import com.example.raiffeisentest.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
 private const val TAG = "UserViewModel"
-class UserViewModel(application: Application, private val repository: UserRepository) : AndroidViewModel(application) {
+class UserViewModel(application: Application, private val repository: UserRepository) : AndroidViewModel(application),
+    KoinComponent {
     val isLoading = ObservableBoolean()
     val lastCalledPage = ObservableInt()
 
@@ -33,6 +37,22 @@ class UserViewModel(application: Application, private val repository: UserReposi
             withContext(Dispatchers.Main) {
                 users.value = result
                 isLoading.set(false)
+            }
+        }
+    }
+
+    fun addUsers(usersModel: ArrayList<User>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val newList:List<User> = ArrayList<User>(usersModel)
+            repository.addUsers(newList)
+        }
+    }
+
+    fun getFromDB() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = repository.getUsersFromDB()
+            withContext(Dispatchers.Main) {
+                users.value = UsersModel(result, get())
             }
         }
     }
