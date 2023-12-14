@@ -17,8 +17,11 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
 private const val TAG = "UserViewModel"
-class UserViewModel(application: Application, private val repository: UserRepository) : AndroidViewModel(application),
-    KoinComponent {
+class UserViewModel(
+    application: Application,
+    private val repository: UserRepository
+) : AndroidViewModel(application), KoinComponent {
+
     val isLoading = ObservableBoolean()
     val lastCalledPage = ObservableInt()
 

@@ -8,9 +8,12 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
 
-class UserRepository(private val retrofitService: RetrofitAPI, private val userDao: UserDao) : KoinComponent {
+class UserRepository(
+    private val retrofitService: RetrofitAPI,
+    private val userDao: UserDao
+) : KoinComponent {
 
-    suspend fun getUsers(page: Int) : UsersModel {
+    suspend fun getUsers(page: Int): UsersModel {
         return try {
             retrofitService.getUsers(page, 20, "abc")
         } catch (e: Exception) {
@@ -18,7 +21,7 @@ class UserRepository(private val retrofitService: RetrofitAPI, private val userD
         }
     }
 
-    suspend fun getUsersFromDB() : ArrayList<User> {
+    suspend fun getUsersFromDB(): ArrayList<User> {
         return ArrayList(userDao.getUsers())
     }
 
