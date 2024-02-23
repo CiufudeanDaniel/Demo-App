@@ -9,6 +9,5 @@
         android:id="@+id/userListFragment"
         android:name="com.example.raiffeisentest.UserListFragment"
         android:label="fragment_user_list"
-        tools:layout="@layout/fragment_user_list" >
-    </fragment>
+        tools:layout="@layout/fragment_user_list" />
 </navigation>
