@@ -1,7 +1,6 @@
 package com.example.raiffeisentest
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.example.raiffeisentest.view_models.UserViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-private const val TAG = "UserListFragment"
 class UserListFragment : Fragment() {
     private var _binding: FragmentUserListBinding? = null
     private val binding get() = _binding!!
@@ -48,33 +46,37 @@ class UserListFragment : Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
-                    val lastItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val lastItemPosition =
+                        (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val lastCalledPage = viewModel.lastCalledPage.get()
                     if (lastCalledPage < 3 && lastItemPosition >= (lastCalledPage * mUsers.info.results - 3))
-                        viewModel.getUsers(lastCalledPage + 1)
+                        viewModel.getUsersScreenState(lastCalledPage + 1)
                 }
             }
         })
 
-        viewModel.users.observe(requireActivity()) { u ->
-            Log.v(TAG, u.toString())
-            if (this::mUsers.isInitialized) {
-                if (mUsers.results.size + u.info.results > viewModel.lastCalledPage.get() * u.info.results && u.results.size > 0)
-                    mUsers = u
-                else
-                    mUsers.results.addAll(u.results)
-            } else
-                mUsers = u
+        viewModel.inputScreenState.observe(requireActivity()) { screenState ->
+            when (screenState) {
+                UserListScreenState.Error -> {}
+                UserListScreenState.Loading -> {}
+                is UserListScreenState.Success -> {
+                    val users = screenState.users
+                    if (this::mUsers.isInitialized) {
+                        if (mUsers.results.size + users.info.results > viewModel.lastCalledPage.get() * users.info.results && users.results.size > 0)
+                            mUsers = users
+                        else
+                            mUsers.results.addAll(users.results)
+                    } else {
+                        mUsers = users
+                    }
 
-            binding.userModel = mUsers
-            if (mUsers.results.size == 0)
-                viewModel.getFromDB()
-            else
-                viewModel.addUsers(u.results)
-
-            val firstItemPosition = (binding.usersList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-            binding.usersList.adapter = RecyclerViewAdapter(mUsers.results)
-            binding.usersList.scrollToPosition(firstItemPosition)
+                    binding.userModel = mUsers
+                    val firstItemPosition =
+                        (binding.usersList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    binding.usersList.adapter = RecyclerViewAdapter(mUsers.results)
+                    binding.usersList.scrollToPosition(firstItemPosition)
+                }
+            }
         }
     }
 
