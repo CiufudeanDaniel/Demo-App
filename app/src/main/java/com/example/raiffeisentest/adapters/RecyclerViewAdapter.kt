@@ -37,6 +37,7 @@ class ViewHolder(private val itemBinding: ItemUserLayoutBinding) : RecyclerView.
             .build())
 
         Glide.with(itemBinding.image.context)
+            .load("")
             .load(glideUrl)
             .placeholder(R.drawable.ic_launcher_background)
             .into(itemBinding.image)

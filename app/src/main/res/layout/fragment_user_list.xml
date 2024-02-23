@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <import type="java.util.ArrayList" />
-        <import type="android.view.View" />
-        <import type="com.example.raiffeisentest.models.UsersModel" />
-        <import type="com.example.raiffeisentest.view_models.UserViewModel" />
-        <variable name="viewModel" type="UserViewModel"/>
-        <variable name="userModel" type="UsersModel"/>
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,26 +10,47 @@
             android:id="@+id/empty_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/empty_list"
             android:gravity="center"
-            android:visibility="@{userModel.results.size() == 0 ? View.VISIBLE : View.GONE}"
-            />
+            android:text="@string/empty_list"
+            android:visibility="@{userModel.results.size() == 0 ? View.VISIBLE : View.GONE}" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:refreshing="@{viewModel.isLoading()}"
-            app:onRefreshListener="@{() -> viewModel.getUsers(1)}"
-            >
+            app:onRefreshListener="@{() -> viewModel.getUsersScreenState(1)}"
+            app:refreshingState="@{viewModel.inputScreenState}">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/users_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <import type="java.util.ArrayList" />
+
+        <import type="android.view.View" />
+
+        <import type="com.example.raiffeisentest.models.UsersModel" />
+
+        <import type="com.example.raiffeisentest.view_models.UserViewModel" />
+
+        <import type="com.example.raiffeisentest.UserListScreenState" />
+
+        <import type="com.example.raiffeisentest.UserListScreenState.Loading" />
+
+        <variable
+            name="viewModel"
+            type="UserViewModel" />
+
+        <variable
+            name="userModel"
+            type="UsersModel" />
+    </data>
 </layout>
