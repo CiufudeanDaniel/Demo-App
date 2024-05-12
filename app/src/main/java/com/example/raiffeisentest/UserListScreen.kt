@@ -1,9 +1,12 @@
 package com.example.raiffeisentest
 
-import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Divider
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -12,16 +15,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.raiffeisentest.models.*
 import com.example.raiffeisentest.repository.UserRepository
 import com.example.raiffeisentest.view_models.MyViewModelFactory
 import com.example.raiffeisentest.view_models.UserViewModel1
 
-private const val TAG = "UserListScreen"
 
 @Composable
 internal fun UserListScreen(
@@ -61,7 +71,62 @@ private fun SuccessComponent(state: UserListScreenState.Success) {
 
 @Composable
 fun ListItemComponent(user: User) {
-    Text(text = user.name.first)
+    Column {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 15.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(user.picture.thumbnail)
+                    .crossfade(false)
+                    .build(),
+                placeholder = painterResource(R.drawable.ic_launcher_background),
+                contentDescription = stringResource(R.string.name),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .width(50.dp)
+                    .height(50.dp)
+            )
+            Column {
+                Text(
+                    text = user.name.first,
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 10.dp)
+                )
+                Text(
+                    text = stringResource(id = R.string.age_and_nat, user.dob.age, user.nat),
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 10.dp)
+                )
+            }
+            Spacer(Modifier.weight(1f))
+            Column {
+                Row {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_baseline_attachment_24),
+                        contentDescription = "",
+                    )
+
+                    Text(
+                        text = user.dob.getTime(),
+                        modifier = Modifier
+                            .padding(start = 10.dp, end = 10.dp)
+                    )
+                }
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_baseline_attachment_24),
+                    contentDescription = "",
+                )
+            }
+        }
+        Divider(color = Color.Black, thickness = 0.2.dp, modifier = Modifier.padding(top = 10.dp))
+    }
 }
 
 @Composable
