@@ -1,10 +1,10 @@
 package com.example.raiffeisentest
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material3.CircularProgressIndicator
@@ -63,7 +63,7 @@ private fun SuccessComponent(state: UserListScreenState.Success) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
-        items(state.users.results) { user ->
+        itemsIndexed(state.users.results) { index, user ->
             ListItemComponent(user)
         }
     }
@@ -92,22 +92,20 @@ fun ListItemComponent(user: User) {
                     .width(50.dp)
                     .height(50.dp)
             )
-            Column {
-                Text(
-                    text = user.name.first,
-                    modifier = Modifier
-                        .padding(start = 10.dp, end = 10.dp)
-                )
-                Text(
-                    text = stringResource(id = R.string.age_and_nat, user.dob.age, user.nat),
-                    modifier = Modifier
-                        .padding(start = 10.dp, end = 10.dp)
-                )
-            }
-            Spacer(Modifier.weight(1f))
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Row {
+                    Text(
+                        text = user.name.first,
+                        modifier = Modifier
+                            .padding(start = 10.dp, end = 10.dp)
+                    )
+
+                    Spacer(Modifier.weight(1f))
+
                     Image(
+                        alignment = Alignment.TopEnd,
                         painter = painterResource(id = R.drawable.ic_baseline_attachment_24),
                         contentDescription = "",
                     )
@@ -119,10 +117,23 @@ fun ListItemComponent(user: User) {
                     )
                 }
 
-                Image(
-                    painter = painterResource(id = R.drawable.ic_baseline_attachment_24),
-                    contentDescription = "",
+                Text(
+                    text = stringResource(id = R.string.age_and_nat, user.dob.age, user.nat),
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 10.dp)
                 )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_baseline_star_border_24),
+                        contentDescription = "",
+                        modifier = Modifier.wrapContentWidth(Alignment.End)
+                    )
+                }
             }
         }
         Divider(color = Color.Black, thickness = 0.2.dp, modifier = Modifier.padding(top = 10.dp))
