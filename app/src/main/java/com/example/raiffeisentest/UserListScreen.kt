@@ -113,6 +113,7 @@ fun ListItemComponent(user: User) {
                     Text(
                         text = user.dob.getTime(),
                         modifier = Modifier
+                            .align(alignment = Alignment.CenterVertically)
                             .padding(start = 10.dp, end = 10.dp)
                     )
                 }
