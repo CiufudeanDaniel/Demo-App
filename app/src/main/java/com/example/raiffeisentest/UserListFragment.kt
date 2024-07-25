@@ -1,6 +1,7 @@
 package com.example.raiffeisentest
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import com.example.raiffeisentest.models.UsersModel
 import com.example.raiffeisentest.view_models.UserViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
+private val TAG = UserListFragment::class.simpleName
 class UserListFragment : Fragment() {
     private var _binding: FragmentUserListBinding? = null
     private val binding get() = _binding!!
@@ -33,7 +34,7 @@ class UserListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.v(TAG, "onViewCreated")
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         val dividerItemDecoration = DividerItemDecoration(
